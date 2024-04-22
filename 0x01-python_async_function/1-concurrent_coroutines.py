@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-""" The basics of async """
-
+'''Task 1's module.
+'''
 import asyncio
 from typing import List
 
@@ -14,5 +14,4 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     wait_times = await asyncio.gather(
         *tuple(map(lambda _: wait_random(max_delay), range(n)))
     )
-    return sorted(wait_times)asyncio.run(wait_random(15)))
-
+    return sorted(wait_times)
