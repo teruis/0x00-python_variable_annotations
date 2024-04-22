@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
 """ The basics of async """
+   
+import asyncio
+import random
+from typing import List
 
-from asyncio import run
-from time import time
+async def wait_random(max_delay=10):
+    delay = random.uniform(0, max_delay)
+    await asyncio.sleep(delay)
+    return delay
 
-wait_n = __import__('1-concurrent_coroutines').wait_n
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    delays = [wait_random(max_delay) for _ in range(n)]
+    results = await asyncio.gather(*delays)
+    return sorted(results)
 
+if __name__ == "__main__":
+    import asyncio
+    
+    wait_n = __import__('1-concurrent_coroutines').wait_n
 
-def measure_time(n: int, max_delay: int) -> float:
-    """ Measure the runtime """
-    start = time()
+    print(asyncio.run(wait_n(5, 5)))
+    print(asyncio.run(wait_n(10, 7)))
+    print(asyncio.run(wait_n(10, 0)))
 
-    run(wait_n(n, max_delay))
-
-    end = time()
-
-    return (end - start) / n
